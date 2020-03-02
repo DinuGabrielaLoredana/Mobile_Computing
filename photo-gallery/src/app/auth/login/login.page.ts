@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Parse} from 'parse';
-import {NavController, ToastController} from '@ionic/angular';
-
+import {NavController, ToastController, AlertController} from '@ionic/angular';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -13,6 +12,7 @@ export class LoginPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
+    private alertCtrl: AlertController
   ) {
 
   }
@@ -21,7 +21,8 @@ export class LoginPage implements OnInit {
   username: string;
   password: string;
 
- 
+  
+
   signUp() {
     Parse.User.signUp(this.username, this.password).then((resp) => {
       console.log('Logged in successfully', resp);
@@ -34,8 +35,11 @@ export class LoginPage implements OnInit {
         message: 'Account created successfully',
         duration: 2000
       });
-    }, err => {
-      console.log('Error signing in', err);
+    }, async err => {
+        let alert = (await this.alertCtrl.create({
+          message: 'Account with this credentials already exists',
+          buttons: ['Dismiss']
+        })).present();
 
       this.toastCtrl.create({
         message: err.message,
@@ -50,8 +54,11 @@ export class LoginPage implements OnInit {
 
       // If you app has Tabs, set root to TabsPage
       this.navCtrl.navigateRoot('tabs/tab2')
-    }, err => {
-      console.log('Error logging in', err);
+    }, async err => {
+      let alert = (await this.alertCtrl.create({
+        message: 'Invalid credentials.',
+        buttons: ['Dismiss']
+      })).present();
 
       this.toastCtrl.create({
         message: err.message,
