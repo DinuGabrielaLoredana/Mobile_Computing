@@ -1,0 +1,29 @@
+
+<h4 text-center margin-top>Insert your credentials</h4>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+	  <ion-item>
+		<ion-label stacked>Username: </ion-label>
+		<ion-input [(ngModel)]="username"></ion-input>
+	  </ion-item>
+	</ion-row>
+	 <ion-row>
+	  <ion-item>
+		<ion-label stacked>Password: </ion-label>
+		<ion-input type="password" [(ngModel)]="password"></ion-input>
+	  </ion-item>
+   </ion-row>
+	<ion-row>
+  <ion-col>
+    <button ion-button margin-right style="background-color:#ADFF2F" (click)="signUp()">
+      SIGN UP
+    </button>
+    <button ion-button style="background-color:#00BFFF" (click)="signIn()">
+      SIGN IN
+    </button>
+	</ion-col>
+ 
+   </ion-row>
+  </ion-grid>
+ </ion-content>
