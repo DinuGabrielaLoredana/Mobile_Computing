@@ -144,7 +144,7 @@ export class PhotoService {
 
     const capturedPhoto = await Camera.getPhoto({
       resultType: CameraResultType.Uri, // file-based data; provides best performance
-      source: CameraSource.Prompt, // automatically take a new photo with the camera
+      source: CameraSource.Photos, // automatically take a new photo with the camera
       quality: 100 // highest quality (0 to 100)
     });
 
