@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Parse} from 'parse';
 import {NavController, ToastController, AlertController} from '@ionic/angular';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -12,7 +13,8 @@ export class LoginPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     public toastCtrl: ToastController,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private router: Router
   ) {
 
   }
@@ -53,7 +55,8 @@ export class LoginPage implements OnInit {
       console.log('Logged in successfully', resp);
 
       // If you app has Tabs, set root to TabsPage
-      this.navCtrl.navigateRoot('tabs/tab2')
+      this.router.navigate(["tabs/tab2"]);
+      //this.navCtrl.navigateRoot('tabs/tab2')
     }, async err => {
       let alert = (await this.alertCtrl.create({
         message: 'Invalid credentials.',
