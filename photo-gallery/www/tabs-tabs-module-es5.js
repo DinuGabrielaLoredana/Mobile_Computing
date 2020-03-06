@@ -66,7 +66,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     "./src/app/tabs/tabs.page.ts");
 
     var routes = [{
-      path: 'tabs',
+      path: '',
       component: _tabs_page__WEBPACK_IMPORTED_MODULE_3__["TabsPage"],
       children: [{
         path: 'tab1',

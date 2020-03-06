@@ -27,8 +27,11 @@
 
 <ion-content>
   <ion-fab vertical="bottom" horizontal="center" slot="fixed">
-    <ion-fab-button (click)="photoService.addNewToGallery()">
+    <ion-button (click)="photoService.addNewToGallery()">
       <ion-icon name="camera"></ion-icon>
-    </ion-fab-button>
+    </ion-button>
+    <ion-button (click)="photoService.getPhotoFromSystem()">
+      <ion-icon name="add-circle-outline"></ion-icon>
+    </ion-button>
   </ion-fab>
 </ion-content>

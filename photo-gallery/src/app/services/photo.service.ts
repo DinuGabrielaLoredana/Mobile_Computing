@@ -4,7 +4,6 @@ import { Plugins, CameraResultType, Capacitor, FilesystemDirectory,
   
 import { Platform } from '@ionic/angular';
 
-
 const { Camera, Filesystem, Storage } = Plugins;
 
 @Injectable({
@@ -14,6 +13,7 @@ const { Camera, Filesystem, Storage } = Plugins;
 
 
 export class PhotoService {
+
   public photos: Photo[] = [];
   private PHOTO_STORAGE: string = "photos";
   private platform: Platform;
@@ -139,7 +139,35 @@ export class PhotoService {
             }))
       });
   }
+
+  async getPhotoFromSystem() {
+
+    const capturedPhoto = await Camera.getPhoto({
+      resultType: CameraResultType.Uri, // file-based data; provides best performance
+      source: CameraSource.Prompt, // automatically take a new photo with the camera
+      quality: 100 // highest quality (0 to 100)
+    });
+
+    //Save the picture and add it to photo collection
+    const savedImageFile = await this.savePicture(capturedPhoto);
+    this.photos.unshift(savedImageFile);
+    Storage.set({
+      key: this.PHOTO_STORAGE,
+      value: this.platform.is('hybrid')
+              ? JSON.stringify(this.photos)  
+              : JSON.stringify(this.photos.map(p => {
+                // Don't save the base64 representation of the photo data, 
+                // since it's already saved on the Filesystem
+                const photoCopy = { ...p };
+                delete photoCopy.base64;
+    
+                return photoCopy;
+            }))
+      });
+  }
 }
+
+
 
 interface Photo {
   filepath: string;

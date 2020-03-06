@@ -1,3 +1,7 @@
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["tab1-tab1-module"], {
@@ -17,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Tab 1\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Tab 1</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <app-explore-container name=\"Tab 1 page\"></app-explore-container>\n</ion-content>\n";
+    __webpack_exports__["default"] = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Acceleration\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n    <ion-list> \n      <ion-item>\n        <ion-label color=\"primary\" >Speed</ion-label>\n        <ion-label color=\"secondery\" >{{this.speed}}</ion-label>\n      </ion-item>\n    </ion-list>\n    </ion-content>\n\n\n\n\n";
     /***/
   },
 
@@ -119,7 +123,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "ion-content ion-toolbar {\n  --background: translucent;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdGFiMS9FOlxcYXV0b21hdGljYVxcYXV0b21hdGljYUFuNFxcc2VtMlxcbW9iaWxlIGNvbXB1dGluZ1xccHJvaWVjdFxccGhvdG8tZ2FsbGVyeS9zcmNcXGFwcFxcdGFiMVxcdGFiMS5wYWdlLnNjc3MiLCJzcmMvYXBwL3RhYjEvdGFiMS5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSx5QkFBQTtBQ0NGIiwiZmlsZSI6InNyYy9hcHAvdGFiMS90YWIxLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImlvbi1jb250ZW50IGlvbi10b29sYmFyIHtcbiAgLS1iYWNrZ3JvdW5kOiB0cmFuc2x1Y2VudDtcbn0iLCJpb24tY29udGVudCBpb24tdG9vbGJhciB7XG4gIC0tYmFja2dyb3VuZDogdHJhbnNsdWNlbnQ7XG59Il19 */";
+    __webpack_exports__["default"] = "ion-content ion-toolbar {\n  --background: translucent;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvdGFiMS9FOlxcYXV0b21hdGljYVxcYXV0b21hdGljYUFuNFxcc2VtMlxcbW9iaWxlIGNvbXB1dGluZ1xccHJvaWVjdFxccGhvdG8tZ2FsbGVyeS9zcmNcXGFwcFxcdGFiMVxcdGFiMS5wYWdlLnNjc3MiLCJzcmMvYXBwL3RhYjEvdGFiMS5wYWdlLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSx5QkFBQTtBQ0NGIiwiZmlsZSI6InNyYy9hcHAvdGFiMS90YWIxLnBhZ2Uuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbImlvbi1jb250ZW50IGlvbi10b29sYmFyIHtcbiAgLS1iYWNrZ3JvdW5kOiB0cmFuc2x1Y2VudDtcbn1cbiIsImlvbi1jb250ZW50IGlvbi10b29sYmFyIHtcbiAgLS1iYWNrZ3JvdW5kOiB0cmFuc2x1Y2VudDtcbn0iXX0= */";
     /***/
   },
 
@@ -154,9 +158,56 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
     /*! @angular/core */
     "./node_modules/@angular/core/fesm2015/core.js");
+    /* harmony import */
 
-    var Tab1Page = function Tab1Page() {
-      _classCallCheck(this, Tab1Page);
+
+    var _ionic_native_device_motion_ngx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! @ionic-native/device-motion/ngx */
+    "./node_modules/@ionic-native/device-motion/ngx/index.js");
+
+    var Tab1Page = /*#__PURE__*/function () {
+      function Tab1Page(deviceMotion) {
+        _classCallCheck(this, Tab1Page);
+
+        this.deviceMotion = deviceMotion;
+        this.watchAcceleration();
+      }
+
+      _createClass(Tab1Page, [{
+        key: "getAcceleration",
+        value: function getAcceleration() {
+          var _this = this;
+
+          // Get the device current acceleration
+          this.deviceMotion.getCurrentAcceleration().then(function (acceleration) {
+            return _this.speed = acceleration;
+          }, function (error) {
+            return console.log(error);
+          });
+        }
+      }, {
+        key: "watchAcceleration",
+        value: function watchAcceleration() {
+          // Watch device acceleration
+          this.subscription = this.deviceMotion.watchAcceleration().subscribe(function (acceleration) {
+            console.log(acceleration);
+          });
+        }
+      }, {
+        key: "stopWatchAcceleration",
+        value: function stopWatchAcceleration() {
+          // Stop watch
+          this.subscription.unsubscribe();
+        }
+      }]);
+
+      return Tab1Page;
+    }();
+
+    Tab1Page.ctorParameters = function () {
+      return [{
+        type: _ionic_native_device_motion_ngx__WEBPACK_IMPORTED_MODULE_2__["DeviceMotion"]
+      }];
     };
 
     Tab1Page = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -167,7 +218,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
       /*! ./tab1.page.scss */
       "./src/app/tab1/tab1.page.scss")).default]
-    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])], Tab1Page);
+    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_ionic_native_device_motion_ngx__WEBPACK_IMPORTED_MODULE_2__["DeviceMotion"]])], Tab1Page);
     /***/
   }
 }]);

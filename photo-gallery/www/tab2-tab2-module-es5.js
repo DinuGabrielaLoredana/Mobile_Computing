@@ -4927,7 +4927,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Photo Gallery</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n\n<ion-content>\n  <ion-grid>\n    <ion-row>\n      <ion-col size=\"6\" \n      *ngFor=\"let photo of photoService.photos; index as position\">\n        <ion-img src=\"{{ photo.base64 ? photo.base64 : photo.webviewPath }}\">\n        </ion-img>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <!-- ion-fab markup  -->\n</ion-content>\n\n\n<ion-content>\n  <ion-fab vertical=\"bottom\" horizontal=\"center\" slot=\"fixed\">\n    <ion-fab-button (click)=\"photoService.addNewToGallery()\">\n      <ion-icon name=\"camera\"></ion-icon>\n    </ion-fab-button>\n  </ion-fab>\n</ion-content>";
+    __webpack_exports__["default"] = "<ion-header>\n  <ion-toolbar>\n    <ion-title>Photo Gallery</ion-title>\n  </ion-toolbar>\n</ion-header>\n\n\n  <div margin-top text-center>\n    <button ion-button (click)=\"logOut()\">\n      Log out\n    </button>\n  </div>\n<ion-content>\n  <ion-grid>\n    <ion-row>\n      <ion-col size=\"6\" \n      *ngFor=\"let photo of photoService.photos; index as position\">\n        <ion-img src=\"{{ photo.base64 ? photo.base64 : photo.webviewPath }}\">\n        </ion-img>\n      </ion-col>\n    </ion-row>\n  </ion-grid>\n\n  <!-- ion-fab markup  -->\n</ion-content>\n\n\n<ion-content>\n  <ion-fab vertical=\"bottom\" horizontal=\"center\" slot=\"fixed\">\n    <ion-button (click)=\"photoService.addNewToGallery()\">\n      <ion-icon name=\"camera\"></ion-icon>\n    </ion-button>\n    <ion-button (click)=\"photoService.getPhotoFromSystem()\">\n      <ion-icon name=\"add-circle-outline\"></ion-icon>\n    </ion-button>\n  </ion-fab>\n</ion-content>";
     /***/
   },
 
@@ -5271,6 +5271,50 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }, _callee5, this);
           }));
         }
+      }, {
+        key: "getPhotoFromSystem",
+        value: function getPhotoFromSystem() {
+          return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+            var capturedPhoto, savedImageFile;
+            return regeneratorRuntime.wrap(function _callee6$(_context6) {
+              while (1) {
+                switch (_context6.prev = _context6.next) {
+                  case 0:
+                    _context6.next = 2;
+                    return Camera.getPhoto({
+                      resultType: _capacitor_core__WEBPACK_IMPORTED_MODULE_2__["CameraResultType"].Uri,
+                      source: _capacitor_core__WEBPACK_IMPORTED_MODULE_2__["CameraSource"].Prompt,
+                      quality: 100 // highest quality (0 to 100)
+
+                    });
+
+                  case 2:
+                    capturedPhoto = _context6.sent;
+                    _context6.next = 5;
+                    return this.savePicture(capturedPhoto);
+
+                  case 5:
+                    savedImageFile = _context6.sent;
+                    this.photos.unshift(savedImageFile);
+                    Storage.set({
+                      key: this.PHOTO_STORAGE,
+                      value: this.platform.is('hybrid') ? JSON.stringify(this.photos) : JSON.stringify(this.photos.map(function (p) {
+                        // Don't save the base64 representation of the photo data, 
+                        // since it's already saved on the Filesystem
+                        var photoCopy = Object.assign({}, p);
+                        delete photoCopy.base64;
+                        return photoCopy;
+                      }))
+                    });
+
+                  case 8:
+                  case "end":
+                    return _context6.stop();
+                }
+              }
+            }, _callee6, this);
+          }));
+        }
       }]);
 
       return PhotoService;
@@ -5427,18 +5471,54 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     var _services_photo_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
     /*! ../services/photo.service */
     "./src/app/services/photo.service.ts");
+    /* harmony import */
+
+
+    var parse__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! parse */
+    "./node_modules/parse/index.js");
+    /* harmony import */
+
+
+    var parse__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(parse__WEBPACK_IMPORTED_MODULE_3__);
+    /* harmony import */
+
+
+    var _ionic_angular__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! @ionic/angular */
+    "./node_modules/@ionic/angular/fesm2015/ionic-angular.js");
 
     var Tab2Page = /*#__PURE__*/function () {
-      function Tab2Page(photoService) {
+      function Tab2Page(photoService, navCtrl, toastCtrl) {
         _classCallCheck(this, Tab2Page);
 
         this.photoService = photoService;
+        this.navCtrl = navCtrl;
+        this.toastCtrl = toastCtrl;
       }
 
       _createClass(Tab2Page, [{
         key: "ngOnInit",
         value: function ngOnInit() {
           this.photoService.loadSaved();
+        }
+      }, {
+        key: "logOut",
+        value: function logOut() {
+          var _this2 = this;
+
+          parse__WEBPACK_IMPORTED_MODULE_3__["Parse"].User.logOut().then(function (resp) {
+            console.log('Logged out successfully', resp);
+
+            _this2.navCtrl.navigateRoot('login');
+          }, function (err) {
+            console.log('Error logging out', err);
+
+            _this2.toastCtrl.create({
+              message: 'Error logging out',
+              duration: 2000
+            });
+          });
         }
       }]);
 
@@ -5448,6 +5528,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     Tab2Page.ctorParameters = function () {
       return [{
         type: _services_photo_service__WEBPACK_IMPORTED_MODULE_2__["PhotoService"]
+      }, {
+        type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["NavController"]
+      }, {
+        type: _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["ToastController"]
       }];
     };
 
@@ -5459,7 +5543,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
       /*! ./tab2.page.scss */
       "./src/app/tab2/tab2.page.scss")).default]
-    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_photo_service__WEBPACK_IMPORTED_MODULE_2__["PhotoService"]])], Tab2Page);
+    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_services_photo_service__WEBPACK_IMPORTED_MODULE_2__["PhotoService"], _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["NavController"], _ionic_angular__WEBPACK_IMPORTED_MODULE_4__["ToastController"]])], Tab2Page);
     /***/
   }
 }]);
