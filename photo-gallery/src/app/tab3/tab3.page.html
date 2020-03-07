@@ -7,11 +7,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+    <ion-item style="cursor: pointer;margin-top:100px;" (click)="onpickupClick()">
+      <ion-icon slot="start" name="locate"></ion-icon>
+      <ion-label position="stacked">Pickup Location</ion-label>
+       <ion-textarea  style="margin-top:20px;" >{{pickupLocation}}</ion-textarea>
+    </ion-item>
   <app-explore-container name="Tab 3 page"></app-explore-container>
 </ion-content>
