@@ -1,16 +1,11 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      Leaflet All Property
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-    <ion-item style="cursor: pointer;margin-top:100px;" (click)="onpickupClick()">
-      <ion-icon slot="start" name="locate"></ion-icon>
-      <ion-label position="stacked">Pickup Location</ion-label>
-       <ion-textarea  style="margin-top:20px;" >{{pickupLocation}}</ion-textarea>
-    </ion-item>
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+<ion-content>
+  <div id="mapId3" style="width: 100%; height: 100%"></div>
 </ion-content>

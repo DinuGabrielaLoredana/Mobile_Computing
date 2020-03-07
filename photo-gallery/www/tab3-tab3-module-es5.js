@@ -1,3 +1,7 @@
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["tab3-tab3-module"], {
@@ -17,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Tab 3\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n  <ion-header collapse=\"condense\">\n    <ion-toolbar>\n      <ion-title size=\"large\">Tab 3</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <app-explore-container name=\"Tab 3 page\"></app-explore-container>\n</ion-content>\n";
+    __webpack_exports__["default"] = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Tab 3\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content [fullscreen]=\"true\">\n    <ion-item style=\"cursor: pointer;margin-top:100px;\" (click)=\"onpickupClick()\">\n      <ion-icon slot=\"start\" name=\"locate\"></ion-icon>\n      <ion-label position=\"stacked\">Pickup Location</ion-label>\n       <ion-textarea  style=\"margin-top:20px;\" >{{pickupLocation}}</ion-textarea>\n    </ion-item>\n  <app-explore-container name=\"Tab 3 page\"></app-explore-container>\n</ion-content>\n";
     /***/
   },
 
@@ -154,9 +158,45 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
     /*! @angular/core */
     "./node_modules/@angular/core/fesm2015/core.js");
+    /* harmony import */
 
-    var Tab3Page = function Tab3Page() {
-      _classCallCheck(this, Tab3Page);
+
+    var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(
+    /*! @angular/router */
+    "./node_modules/@angular/router/fesm2015/router.js");
+
+    var Tab3Page = /*#__PURE__*/function () {
+      // The constructor below is changed
+      function Tab3Page(router, route) {
+        var _this = this;
+
+        _classCallCheck(this, Tab3Page);
+
+        this.router = router;
+        this.route = route;
+        this.route.queryParams.subscribe(function (params) {
+          if (_this.router.getCurrentNavigation().extras.state) {
+            _this.pickupLocation = _this.router.getCurrentNavigation().extras.state.pickupLocation;
+          }
+        });
+      }
+
+      _createClass(Tab3Page, [{
+        key: "onpickupClick",
+        value: function onpickupClick() {
+          this.router.navigate(['pickup-location']);
+        }
+      }]);
+
+      return Tab3Page;
+    }();
+
+    Tab3Page.ctorParameters = function () {
+      return [{
+        type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]
+      }, {
+        type: _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]
+      }];
     };
 
     Tab3Page = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
@@ -167,7 +207,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
       /*! ./tab3.page.scss */
       "./src/app/tab3/tab3.page.scss")).default]
-    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])], Tab3Page);
+    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"], _angular_router__WEBPACK_IMPORTED_MODULE_2__["ActivatedRoute"]])], Tab3Page);
     /***/
   }
 }]);

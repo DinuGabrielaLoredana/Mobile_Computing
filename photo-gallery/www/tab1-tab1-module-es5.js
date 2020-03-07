@@ -21,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header [translucent]=\"true\">\n  <ion-toolbar>\n    <ion-title>\n      Acceleration\n    </ion-title>\n  </ion-toolbar>\n</ion-header>\n\n<ion-content padding>\n    <ion-list> \n      <ion-item>\n        <ion-label color=\"primary\" >Speed</ion-label>\n        <ion-label color=\"secondery\" >{{this.speed}}</ion-label>\n      </ion-item>\n    </ion-list>\n    </ion-content>\n\n\n\n\n";
+    __webpack_exports__["default"] = "<ion-header [translucent]=\"true\">\r\n  <ion-toolbar>\r\n    <ion-title>\r\n      Acceleration\r\n    </ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content padding>\r\n    <ion-list> \r\n      <ion-item>\r\n        <ion-label color=\"primary\" >Speed</ion-label>\r\n        <ion-label color=\"secondery\" >{{this.speed}}</ion-label>\r\n      </ion-item>\r\n    </ion-list>\r\n    </ion-content>\r\n\r\n\r\n\r\n\r\n";
     /***/
   },
 

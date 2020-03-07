@@ -1,26 +1,40 @@
 import { Component } from '@angular/core';
-
-import {Router, ActivatedRoute} from '@angular/router';
-
+import { Map, tileLayer, marker } from 'leaflet';
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
+  map: Map;
+  propertyList = [];
 
-  pickupLocation: string;
-   
-  // The constructor below is changed
-  constructor(private router:Router,private route:ActivatedRoute) {
-    this.route.queryParams.subscribe(params =>{
-      if(this.router.getCurrentNavigation().extras.state){
-        this.pickupLocation = this.router.getCurrentNavigation().extras.state.pickupLocation;
-      }
+  constructor() { }
+
+  ionViewDidEnter() {
+    this.map = new Map('mapId3').setView([42.35663, -71.1109], 16);
+
+    tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
+      attribution: 'edupala.com'
+    }).addTo(this.map);
+
+    fetch('../assets/data.json').then(res => res.json())
+    .then(json => {
+      console.log("aaa"+json.properties);
+      this.propertyList = json.properties;
+      this.leafletMap();
     });
   }
-  
-onpickupClick(){
-    this.router.navigate(['pickup-location']);
+
+  leafletMap() {
+    for (const property of this.propertyList) {
+      marker([property.lat, property.long]).addTo(this.map)
+        .bindPopup(property.city)
+        .openPopup();
+    }
+  }
+
+  ionViewWillLeave() {
+    this.map.remove();
   }
 }

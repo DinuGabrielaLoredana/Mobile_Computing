@@ -1,3 +1,7 @@
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
@@ -231,21 +235,35 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
     /*! @angular/router */
     "./node_modules/@angular/router/fesm2015/router.js");
+    /* harmony import */
+
+
+    var _ionic_native_network_ngx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    /*! @ionic-native/network/ngx */
+    "./node_modules/@ionic-native/network/ngx/index.js");
 
     var LoginPage = /*#__PURE__*/function () {
       //constructor(private  authService:  AuthService, private  router:  Router) { }
-      function LoginPage(navCtrl, toastCtrl, alertCtrl, router) {
+      function LoginPage(navCtrl, toastCtrl, alertCtrl, router, network, platform) {
         _classCallCheck(this, LoginPage);
 
         this.navCtrl = navCtrl;
         this.toastCtrl = toastCtrl;
         this.alertCtrl = alertCtrl;
         this.router = router;
+        this.network = network;
+        this.platform = platform;
       }
 
       _createClass(LoginPage, [{
         key: "ngOnInit",
-        value: function ngOnInit() {}
+        value: function ngOnInit() {
+          if (this.platform.is('cordova')) {
+            var disconnectSubscription = this.network.onDisconnect().subscribe(function () {
+              console.log('network was disconnected :-(');
+            });
+          }
+        }
       }, {
         key: "signUp",
         value: function signUp() {
@@ -261,22 +279,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
               message: 'Account created successfully',
               duration: 2000
             });
-          }, function (err) {
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          }, /*#__PURE__*/function () {
+            var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(err) {
               var alert;
               return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
                       _context.next = 2;
-                      return this.alertCtrl.create({
+                      return _this.alertCtrl.create({
                         message: 'Account with this credentials already exists',
                         buttons: ['Dismiss']
                       });
 
                     case 2:
                       alert = _context.sent.present();
-                      this.toastCtrl.create({
+
+                      _this.toastCtrl.create({
                         message: err.message,
                         duration: 2000
                       });
@@ -286,9 +305,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                       return _context.stop();
                   }
                 }
-              }, _callee, this);
+              }, _callee);
             }));
-          });
+
+            return function (_x) {
+              return _ref.apply(this, arguments);
+            };
+          }());
         }
       }, {
         key: "signIn",
@@ -300,22 +323,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
             _this2.router.navigate(["tabs/tab2"]); //this.navCtrl.navigateRoot('tabs/tab2')
 
-          }, function (err) {
-            return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this2, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+          }, /*#__PURE__*/function () {
+            var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(err) {
               var alert;
               return regeneratorRuntime.wrap(function _callee2$(_context2) {
                 while (1) {
                   switch (_context2.prev = _context2.next) {
                     case 0:
                       _context2.next = 2;
-                      return this.alertCtrl.create({
+                      return _this2.alertCtrl.create({
                         message: 'Invalid credentials.',
                         buttons: ['Dismiss']
                       });
 
                     case 2:
                       alert = _context2.sent.present();
-                      this.toastCtrl.create({
+
+                      _this2.toastCtrl.create({
                         message: err.message,
                         duration: 2000
                       });
@@ -325,9 +349,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                       return _context2.stop();
                   }
                 }
-              }, _callee2, this);
+              }, _callee2);
             }));
-          });
+
+            return function (_x2) {
+              return _ref2.apply(this, arguments);
+            };
+          }());
         }
       }]);
 
@@ -343,6 +371,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         type: _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["AlertController"]
       }, {
         type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]
+      }, {
+        type: _ionic_native_network_ngx__WEBPACK_IMPORTED_MODULE_5__["Network"]
+      }, {
+        type: _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["Platform"]
       }];
     };
 
@@ -354,7 +386,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
       /*! ./login.page.scss */
       "./src/app/auth/login/login.page.scss")).default]
-    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_ionic_angular__WEBPACK_IMPORTED_MODULE_3__["NavController"], _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["ToastController"], _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["AlertController"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])], LoginPage);
+    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_ionic_angular__WEBPACK_IMPORTED_MODULE_3__["NavController"], _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["ToastController"], _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["AlertController"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"], _ionic_native_network_ngx__WEBPACK_IMPORTED_MODULE_5__["Network"], _ionic_angular__WEBPACK_IMPORTED_MODULE_3__["Platform"]])], LoginPage);
     /***/
   }
 }]);

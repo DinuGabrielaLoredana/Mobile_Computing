@@ -1,3 +1,7 @@
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -5005,8 +5009,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
       _createClass(PhotoService, [{
         key: "readAsBase64",
-        value: function readAsBase64(cameraPhoto) {
-          return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        value: function () {
+          var _readAsBase = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(cameraPhoto) {
             var file, response, blob;
             return regeneratorRuntime.wrap(function _callee$(_context) {
               while (1) {
@@ -5050,11 +5054,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               }
             }, _callee, this);
           }));
-        }
+
+          function readAsBase64(_x) {
+            return _readAsBase.apply(this, arguments);
+          }
+
+          return readAsBase64;
+        }()
       }, {
         key: "loadSaved",
-        value: function loadSaved() {
-          return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        value: function () {
+          var _loadSaved = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
             var photos, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, photo, readFile;
 
             return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -5147,11 +5157,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               }
             }, _callee2, this, [[8, 21, 25, 33], [26,, 28, 32]]);
           }));
-        }
+
+          function loadSaved() {
+            return _loadSaved.apply(this, arguments);
+          }
+
+          return loadSaved;
+        }()
       }, {
         key: "getPhotoFile",
-        value: function getPhotoFile(cameraPhoto, fileName) {
-          return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        value: function () {
+          var _getPhotoFile = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(cameraPhoto, fileName) {
             var fileUri;
             return regeneratorRuntime.wrap(function _callee3$(_context3) {
               while (1) {
@@ -5188,11 +5204,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               }
             }, _callee3, this);
           }));
-        }
+
+          function getPhotoFile(_x2, _x3) {
+            return _getPhotoFile.apply(this, arguments);
+          }
+
+          return getPhotoFile;
+        }()
       }, {
         key: "savePicture",
-        value: function savePicture(cameraPhoto) {
-          return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        value: function () {
+          var _savePicture = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(cameraPhoto) {
             var base64Data, fileName;
             return regeneratorRuntime.wrap(function _callee4$(_context4) {
               while (1) {
@@ -5226,11 +5248,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               }
             }, _callee4, this);
           }));
-        }
+
+          function savePicture(_x4) {
+            return _savePicture.apply(this, arguments);
+          }
+
+          return savePicture;
+        }()
       }, {
         key: "addNewToGallery",
-        value: function addNewToGallery() {
-          return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        value: function () {
+          var _addNewToGallery = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
             var capturedPhoto, savedImageFile;
             return regeneratorRuntime.wrap(function _callee5$(_context5) {
               while (1) {
@@ -5270,11 +5298,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               }
             }, _callee5, this);
           }));
-        }
+
+          function addNewToGallery() {
+            return _addNewToGallery.apply(this, arguments);
+          }
+
+          return addNewToGallery;
+        }()
       }, {
         key: "getPhotoFromSystem",
-        value: function getPhotoFromSystem() {
-          return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        value: function () {
+          var _getPhotoFromSystem = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
             var capturedPhoto, savedImageFile;
             return regeneratorRuntime.wrap(function _callee6$(_context6) {
               while (1) {
@@ -5283,7 +5317,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                     _context6.next = 2;
                     return Camera.getPhoto({
                       resultType: _capacitor_core__WEBPACK_IMPORTED_MODULE_2__["CameraResultType"].Uri,
-                      source: _capacitor_core__WEBPACK_IMPORTED_MODULE_2__["CameraSource"].Prompt,
+                      source: _capacitor_core__WEBPACK_IMPORTED_MODULE_2__["CameraSource"].Photos,
                       quality: 100 // highest quality (0 to 100)
 
                     });
@@ -5314,7 +5348,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               }
             }, _callee6, this);
           }));
-        }
+
+          function getPhotoFromSystem() {
+            return _getPhotoFromSystem.apply(this, arguments);
+          }
+
+          return getPhotoFromSystem;
+        }()
       }]);
 
       return PhotoService;

@@ -19,10 +19,6 @@ const routes: Routes = [
   {
     path: 'register',
     loadChildren: () => import('./auth/register/register.module').then( m => m.RegisterPageModule)
-  },
-  {
-    path: 'pickup-location',
-    loadChildren: () => import('./pickup-location/pickup-location.module').then( m => m.PickupLocationPageModule)
   }
 ];
 @NgModule({
