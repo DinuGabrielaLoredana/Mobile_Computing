@@ -1608,17 +1608,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           return m.RegisterPageModule;
         });
       }
-    }, {
-      path: 'pickup-location',
-      loadChildren: function loadChildren() {
-        return __webpack_require__.e(
-        /*! import() | pickup-location-pickup-location-module */
-        "pickup-location-pickup-location-module").then(__webpack_require__.bind(null,
-        /*! ./pickup-location/pickup-location.module */
-        "./src/app/pickup-location/pickup-location.module.ts")).then(function (m) {
-          return m.PickupLocationPageModule;
-        });
-      }
     }];
 
     var AppRoutingModule = function AppRoutingModule() {

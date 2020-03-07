@@ -12,6 +12,7 @@ export class Tab3Page {
   constructor() { }
 
   ionViewDidEnter() {
+    window.dispatchEvent(new Event('resize'));
     this.map = new Map('mapId3').setView([42.35663, -71.1109], 16);
 
     tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
@@ -20,7 +21,6 @@ export class Tab3Page {
 
     fetch('../assets/data.json').then(res => res.json())
     .then(json => {
-      console.log("aaa"+json.properties);
       this.propertyList = json.properties;
       this.leafletMap();
     });

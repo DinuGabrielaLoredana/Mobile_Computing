@@ -23,10 +23,19 @@ export class LoginPage implements OnInit {
     this.platform = platform;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (this.platform.is('cordova')) {
-      let disconnectSubscription = this.network.onDisconnect().subscribe(() => {
-        console.log('network was disconnected :-(');
+      if(this.network.Connection.NONE){
+        let alert = ( await this.alertCtrl.create({
+          message: 'No network available',
+          buttons: ['Dismiss']
+        })).present();
+      }
+      let disconnectSubscription = this.network.onDisconnect().subscribe(async () => {
+        let alert = ( await this.alertCtrl.create({
+          message: 'No network available',
+          buttons: ['Dismiss']
+        })).present();
       });
     } 
     }

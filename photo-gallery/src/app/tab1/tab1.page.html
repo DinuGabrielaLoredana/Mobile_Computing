@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Acceleration
+      Your curren position is:
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,8 +9,16 @@
 <ion-content padding>
     <ion-list> 
       <ion-item>
-        <ion-label color="primary" >Speed</ion-label>
-        <ion-label color="secondery" >{{this.speed}}</ion-label>
+        <ion-label color="primary" >X:</ion-label>
+        <ion-label color="secondery" >{{x}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" >Y:</ion-label>
+        <ion-label color="secondery" >{{y}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label color="primary" >Z:</ion-label>
+        <ion-label color="secondery" >{{z}}</ion-label>
       </ion-item>
     </ion-list>
     </ion-content>

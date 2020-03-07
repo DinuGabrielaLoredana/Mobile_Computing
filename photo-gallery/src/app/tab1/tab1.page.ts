@@ -9,8 +9,15 @@ import { DeviceMotion, DeviceMotionAccelerationData } from '@ionic-native/device
 })
 export class Tab1Page {
 
-  public speed;
+  public x;
+  public y;
+  public z;
   public subscription;
+  ngOnInit() {
+    this.x = 0;
+    this.y = 0;
+    this.z = 0;
+  }
   constructor(private deviceMotion: DeviceMotion) {
     this.watchAcceleration();
   }
@@ -18,14 +25,16 @@ export class Tab1Page {
   getAcceleration() {
     // Get the device current acceleration
     this.deviceMotion.getCurrentAcceleration().then(
-      (acceleration: DeviceMotionAccelerationData) => this.speed = acceleration,
+      (acceleration: DeviceMotionAccelerationData) => this.x = acceleration.x,
       (error: any) => console.log(error)
     );
   }
   watchAcceleration(){
     // Watch device acceleration
     this.subscription = this.deviceMotion.watchAcceleration().subscribe((acceleration: DeviceMotionAccelerationData) => {
-      console.log(acceleration);
+      this.x = acceleration.x;
+      this.y = acceleration.y;
+      this.z = acceleration.z;
     });
   }
   

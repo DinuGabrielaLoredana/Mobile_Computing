@@ -21,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header [translucent]=\"true\">\r\n  <ion-toolbar>\r\n    <ion-title>\r\n      Acceleration\r\n    </ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content padding>\r\n    <ion-list> \r\n      <ion-item>\r\n        <ion-label color=\"primary\" >Speed</ion-label>\r\n        <ion-label color=\"secondery\" >{{this.speed}}</ion-label>\r\n      </ion-item>\r\n    </ion-list>\r\n    </ion-content>\r\n\r\n\r\n\r\n\r\n";
+    __webpack_exports__["default"] = "<ion-header [translucent]=\"true\">\r\n  <ion-toolbar>\r\n    <ion-title>\r\n      Acceleration\r\n    </ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content padding>\r\n    <ion-list> \r\n      <ion-item>\r\n        <ion-label color=\"primary\" >X:</ion-label>\r\n        <ion-label color=\"secondery\" >{{x}}</ion-label>\r\n      </ion-item>\r\n      <ion-item>\r\n        <ion-label color=\"primary\" >Y::</ion-label>\r\n        <ion-label color=\"secondery\" >{{y}}</ion-label>\r\n      </ion-item>\r\n      <ion-item>\r\n        <ion-label color=\"primary\" >Z:</ion-label>\r\n        <ion-label color=\"secondery\" >{{z}}</ion-label>\r\n      </ion-item>\r\n    </ion-list>\r\n    </ion-content>\r\n\r\n\r\n\r\n\r\n";
     /***/
   },
 
@@ -174,13 +174,20 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }
 
       _createClass(Tab1Page, [{
+        key: "ngOnInit",
+        value: function ngOnInit() {
+          this.x = 0;
+          this.y = 0;
+          this.z = 0;
+        }
+      }, {
         key: "getAcceleration",
         value: function getAcceleration() {
           var _this = this;
 
           // Get the device current acceleration
           this.deviceMotion.getCurrentAcceleration().then(function (acceleration) {
-            return _this.speed = acceleration;
+            return _this.x = acceleration.x;
           }, function (error) {
             return console.log(error);
           });
@@ -188,9 +195,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       }, {
         key: "watchAcceleration",
         value: function watchAcceleration() {
+          var _this2 = this;
+
           // Watch device acceleration
           this.subscription = this.deviceMotion.watchAcceleration().subscribe(function (acceleration) {
-            console.log(acceleration);
+            _this2.x = acceleration.x;
+            _this2.y = acceleration.y;
+            _this2.z = acceleration.z;
           });
         }
       }, {
