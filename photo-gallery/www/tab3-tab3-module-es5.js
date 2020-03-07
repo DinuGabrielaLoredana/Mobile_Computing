@@ -6,6 +6,34 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["tab3-tab3-module"], {
   /***/
+  "./node_modules/leaflet/dist/images/marker-icon-2x.png":
+  /*!*************************************************************!*\
+    !*** ./node_modules/leaflet/dist/images/marker-icon-2x.png ***!
+    \*************************************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function node_modulesLeafletDistImagesMarkerIcon2xPng(module, exports, __webpack_require__) {
+    module.exports = __webpack_require__.p + "marker-icon-2x.png";
+    /***/
+  },
+
+  /***/
+  "./node_modules/leaflet/dist/images/marker-shadow.png":
+  /*!************************************************************!*\
+    !*** ./node_modules/leaflet/dist/images/marker-shadow.png ***!
+    \************************************************************/
+
+  /*! no static exports found */
+
+  /***/
+  function node_modulesLeafletDistImagesMarkerShadowPng(module, exports, __webpack_require__) {
+    module.exports = __webpack_require__.p + "marker-shadow.png";
+    /***/
+  },
+
+  /***/
   "./node_modules/leaflet/dist/leaflet-src.js":
   /*!**************************************************!*\
     !*** ./node_modules/leaflet/dist/leaflet-src.js ***!
@@ -13373,7 +13401,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header>\n  <ion-toolbar>\n    <ion-title>\n      Maps\n    </ion-title>\n  </ion-toolbar>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\" />\n</ion-header>\n\n<ion-content>\n  <div id=\"mapId3\" style=\"width: 100vw; height: 100%\"></div>\n</ion-content>";
+    __webpack_exports__["default"] = "<ion-header>\n  <ion-toolbar>\n    <ion-title>\n      Maps\n    </ion-title>\n  </ion-toolbar>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\" />\n</ion-header>\n<ion-content>\n  <div id=\"mapId3\" style=\"height:100vh; width: 100vw;\" ></div>\n</ion-content>\n\n";
     /***/
   },
 
@@ -13520,6 +13548,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
     var leaflet__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_2__);
+    /* harmony import */
+
+
+    var leaflet_dist_images_marker_shadow_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(
+    /*! leaflet/dist/images/marker-shadow.png */
+    "./node_modules/leaflet/dist/images/marker-shadow.png");
+    /* harmony import */
+
+
+    var leaflet_dist_images_marker_shadow_png__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(leaflet_dist_images_marker_shadow_png__WEBPACK_IMPORTED_MODULE_3__);
+    /* harmony import */
+
+
+    var leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(
+    /*! leaflet/dist/images/marker-icon-2x.png */
+    "./node_modules/leaflet/dist/images/marker-icon-2x.png");
+    /* harmony import */
+
+
+    var leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_4__);
 
     var Tab3Page = /*#__PURE__*/function () {
       function Tab3Page() {
@@ -13533,11 +13581,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         value: function ionViewDidEnter() {
           var _this = this;
 
-          window.dispatchEvent(new Event('resize'));
-          this.map = new leaflet__WEBPACK_IMPORTED_MODULE_2__["Map"]('mapId3').setView([42.35663, -71.1109], 16);
-          Object(leaflet__WEBPACK_IMPORTED_MODULE_2__["tileLayer"])('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-            attribution: 'edupala.com'
-          }).addTo(this.map);
+          this.loadmap();
           fetch('../assets/data.json').then(function (res) {
             return res.json();
           }).then(function (json) {
@@ -13574,9 +13618,28 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           }
         }
       }, {
-        key: "ionViewWillLeave",
-        value: function ionViewWillLeave() {
-          this.map.remove();
+        key: "loadmap",
+        value: function loadmap() {
+          var _this2 = this;
+
+          this.map = leaflet__WEBPACK_IMPORTED_MODULE_2__["map"]("mapId3").fitWorld();
+          leaflet__WEBPACK_IMPORTED_MODULE_2__["tileLayer"]('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18
+          }).addTo(this.map);
+          this.map.locate({
+            setView: true,
+            maxZoom: 10
+          }).on('locationfound', function (e) {
+            var markerGroup = leaflet__WEBPACK_IMPORTED_MODULE_2__["featureGroup"]();
+            var marker = leaflet__WEBPACK_IMPORTED_MODULE_2__["marker"]([e.latitude, e.longitude]).on('click', function () {
+              alert('Marker clicked');
+            });
+            markerGroup.addLayer(marker);
+
+            _this2.map.addLayer(markerGroup);
+          }).on('locationerror', function (err) {
+            alert(err.message);
+          });
         }
       }]);
 

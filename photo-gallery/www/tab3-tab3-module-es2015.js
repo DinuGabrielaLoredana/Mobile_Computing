@@ -1,5 +1,27 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["tab3-tab3-module"],{
 
+/***/ "./node_modules/leaflet/dist/images/marker-icon-2x.png":
+/*!*************************************************************!*\
+  !*** ./node_modules/leaflet/dist/images/marker-icon-2x.png ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "marker-icon-2x.png";
+
+/***/ }),
+
+/***/ "./node_modules/leaflet/dist/images/marker-shadow.png":
+/*!************************************************************!*\
+  !*** ./node_modules/leaflet/dist/images/marker-shadow.png ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__.p + "marker-shadow.png";
+
+/***/ }),
+
 /***/ "./node_modules/leaflet/dist/leaflet-src.js":
 /*!**************************************************!*\
   !*** ./node_modules/leaflet/dist/leaflet-src.js ***!
@@ -14099,7 +14121,7 @@ window.L = exports;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar>\n    <ion-title>\n      Maps\n    </ion-title>\n  </ion-toolbar>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\" />\n</ion-header>\n\n<ion-content>\n  <div id=\"mapId3\" style=\"width: 100vw; height: 100%\"></div>\n</ion-content>");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar>\n    <ion-title>\n      Maps\n    </ion-title>\n  </ion-toolbar>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\" />\n</ion-header>\n<ion-content>\n  <div id=\"mapId3\" style=\"height:100vh; width: 100vw;\" ></div>\n</ion-content>\n\n");
 
 /***/ }),
 
@@ -14175,6 +14197,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm2015/core.js");
 /* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! leaflet */ "./node_modules/leaflet/dist/leaflet-src.js");
 /* harmony import */ var leaflet__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(leaflet__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var leaflet_dist_images_marker_shadow_png__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! leaflet/dist/images/marker-shadow.png */ "./node_modules/leaflet/dist/images/marker-shadow.png");
+/* harmony import */ var leaflet_dist_images_marker_shadow_png__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(leaflet_dist_images_marker_shadow_png__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! leaflet/dist/images/marker-icon-2x.png */ "./node_modules/leaflet/dist/images/marker-icon-2x.png");
+/* harmony import */ var leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
 
 
 
@@ -14183,11 +14212,7 @@ let Tab3Page = class Tab3Page {
         this.propertyList = [];
     }
     ionViewDidEnter() {
-        window.dispatchEvent(new Event('resize'));
-        this.map = new leaflet__WEBPACK_IMPORTED_MODULE_2__["Map"]('mapId3').setView([42.35663, -71.1109], 16);
-        Object(leaflet__WEBPACK_IMPORTED_MODULE_2__["tileLayer"])('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-            attribution: 'edupala.com'
-        }).addTo(this.map);
+        this.loadmap();
         fetch('../assets/data.json').then(res => res.json())
             .then(json => {
             this.propertyList = json.properties;
@@ -14201,8 +14226,24 @@ let Tab3Page = class Tab3Page {
                 .openPopup();
         }
     }
-    ionViewWillLeave() {
-        this.map.remove();
+    loadmap() {
+        this.map = leaflet__WEBPACK_IMPORTED_MODULE_2__["map"]("mapId3").fitWorld();
+        leaflet__WEBPACK_IMPORTED_MODULE_2__["tileLayer"]('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18
+        }).addTo(this.map);
+        this.map.locate({
+            setView: true,
+            maxZoom: 10
+        }).on('locationfound', (e) => {
+            let markerGroup = leaflet__WEBPACK_IMPORTED_MODULE_2__["featureGroup"]();
+            let marker = leaflet__WEBPACK_IMPORTED_MODULE_2__["marker"]([e.latitude, e.longitude]).on('click', () => {
+                alert('Marker clicked');
+            });
+            markerGroup.addLayer(marker);
+            this.map.addLayer(markerGroup);
+        }).on('locationerror', (err) => {
+            alert(err.message);
+        });
     }
 };
 Tab3Page = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([

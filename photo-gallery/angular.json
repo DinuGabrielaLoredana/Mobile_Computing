@@ -37,7 +37,11 @@
               },
               {
                 "input": "src/global.scss"
+              },
+			  {
+                "input": "./node_modules/leaflet/dist/leaflet.css"
               }
+			  
             ],
             "scripts": []
           },
@@ -107,6 +111,11 @@
                 "output": "/"
 
               },
+   {
+      "glob": "**/*",
+      "input": "node_modules/leaflet/dist/images/", // you may need to change this path, according to your files structure
+      "output": "./assets/"
+   },
               {
                 "glob": "**/*",
                 "input": "src/assets",

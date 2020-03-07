@@ -85,7 +85,8 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-device-motion": {},
       "cordova-plugin-network-information": {},
-      "cordova-plugin-nativegeocoder": {}
+      "cordova-plugin-nativegeocoder": {},
+      "cordova-plugin-geolocation": {}
     },
     "platforms": [
       "browser",

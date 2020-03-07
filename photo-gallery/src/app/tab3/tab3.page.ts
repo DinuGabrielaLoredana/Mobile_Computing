@@ -1,40 +1,65 @@
+
 import { Component } from '@angular/core';
-import { Map, tileLayer, marker } from 'leaflet';
+import * as leaflet from 'leaflet';
+import {tileLayer,marker} from 'leaflet';
+import "leaflet/dist/images/marker-shadow.png";
+import "leaflet/dist/images/marker-icon-2x.png";
+
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
-  map: Map;
   propertyList = [];
-
-  constructor() { }
+  map: any;
+  constructor() {
+  }
 
   ionViewDidEnter() {
-    window.dispatchEvent(new Event('resize'));
-    this.map = new Map('mapId3').setView([42.35663, -71.1109], 16);
-
-    tileLayer('http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png', {
-      attribution: 'edupala.com'
-    }).addTo(this.map);
-
+    this.loadmap();
     fetch('../assets/data.json').then(res => res.json())
-    .then(json => {
+    .then(json =>{
       this.propertyList = json.properties;
       this.leafletMap();
-    });
+    })   
   }
-
-  leafletMap() {
-    for (const property of this.propertyList) {
-      marker([property.lat, property.long]).addTo(this.map)
-        .bindPopup(property.city)
-        .openPopup();
+  
+  addMarker(e){
+     // Add marker to map at click location; add popup window
+    marker(new leaflet.LatLng(e.latlng.lat, e.latlng.lng)).addTo(this.map).bindPopup("New city")
+    .openPopup();
+  }
+  leafletMap(){
+    for(const property of this.propertyList){
+      marker([property.lat,property.long]).addTo(this.map)
+      .bindPopup(property.city)
+      .openPopup();
     }
+
   }
 
-  ionViewWillLeave() {
-    this.map.remove();
+  loadmap() {
+    
+    this.map = leaflet.map("mapId3").fitWorld();
+    leaflet.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18
+    }).addTo(this.map);
+    
+    this.map.locate({
+      setView: true,
+      maxZoom: 10
+    }).on('locationfound', (e) => {
+      let markerGroup = leaflet.featureGroup();
+      let marker: any = leaflet.marker([e.latitude, e.longitude]).on('click', () => {
+        alert('Marker clicked');
+      })
+      markerGroup.addLayer(marker);
+      this.map.addLayer(markerGroup);
+      }).on('locationerror', (err) => {
+        alert(err.message);
+    })
+
+    //this.map.on('click', this.addMarker);
   }
 }

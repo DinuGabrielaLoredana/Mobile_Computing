@@ -257,57 +257,45 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
           return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
             var _this = this;
 
-            var alert, disconnectSubscription;
+            var disconnectSubscription;
             return regeneratorRuntime.wrap(function _callee2$(_context2) {
               while (1) {
                 switch (_context2.prev = _context2.next) {
                   case 0:
-                    if (!this.platform.is('cordova')) {
-                      _context2.next = 6;
-                      break;
-                    }
+                    if (this.platform.is('cordova')) {
+                      // if(this.network.Connection.NONE){
+                      //   let alert = ( await this.alertCtrl.create({
+                      //     message: 'No network available',
+                      //     buttons: ['Dismiss']
+                      //   })).present();
+                      // }
+                      disconnectSubscription = this.network.onDisconnect().subscribe(function () {
+                        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+                          var alert;
+                          return regeneratorRuntime.wrap(function _callee$(_context) {
+                            while (1) {
+                              switch (_context.prev = _context.next) {
+                                case 0:
+                                  _context.next = 2;
+                                  return this.alertCtrl.create({
+                                    message: 'No network available',
+                                    buttons: ['Dismiss']
+                                  });
 
-                    if (!this.network.Connection.NONE) {
-                      _context2.next = 5;
-                      break;
-                    }
+                                case 2:
+                                  alert = _context.sent.present();
 
-                    _context2.next = 4;
-                    return this.alertCtrl.create({
-                      message: 'No network available',
-                      buttons: ['Dismiss']
-                    });
-
-                  case 4:
-                    alert = _context2.sent.present();
-
-                  case 5:
-                    disconnectSubscription = this.network.onDisconnect().subscribe(function () {
-                      return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-                        var alert;
-                        return regeneratorRuntime.wrap(function _callee$(_context) {
-                          while (1) {
-                            switch (_context.prev = _context.next) {
-                              case 0:
-                                _context.next = 2;
-                                return this.alertCtrl.create({
-                                  message: 'No network available',
-                                  buttons: ['Dismiss']
-                                });
-
-                              case 2:
-                                alert = _context.sent.present();
-
-                              case 3:
-                              case "end":
-                                return _context.stop();
+                                case 3:
+                                case "end":
+                                  return _context.stop();
+                              }
                             }
-                          }
-                        }, _callee, this);
-                      }));
-                    });
+                          }, _callee, this);
+                        }));
+                      });
+                    }
 
-                  case 6:
+                  case 1:
                   case "end":
                     return _context2.stop();
                 }

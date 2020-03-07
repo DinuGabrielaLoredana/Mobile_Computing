@@ -21,7 +21,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header [translucent]=\"true\">\r\n  <ion-toolbar>\r\n    <ion-title>\r\n      Acceleration\r\n    </ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content padding>\r\n    <ion-list> \r\n      <ion-item>\r\n        <ion-label color=\"primary\" >X:</ion-label>\r\n        <ion-label color=\"secondery\" >{{x}}</ion-label>\r\n      </ion-item>\r\n      <ion-item>\r\n        <ion-label color=\"primary\" >Y::</ion-label>\r\n        <ion-label color=\"secondery\" >{{y}}</ion-label>\r\n      </ion-item>\r\n      <ion-item>\r\n        <ion-label color=\"primary\" >Z:</ion-label>\r\n        <ion-label color=\"secondery\" >{{z}}</ion-label>\r\n      </ion-item>\r\n    </ion-list>\r\n    </ion-content>\r\n\r\n\r\n\r\n\r\n";
+    __webpack_exports__["default"] = "<ion-header [translucent]=\"true\">\r\n  <ion-toolbar>\r\n    <ion-title>\r\n      Your curren position is:\r\n    </ion-title>\r\n  </ion-toolbar>\r\n</ion-header>\r\n\r\n<ion-content padding>\r\n    <ion-list> \r\n      <ion-item>\r\n        <ion-label color=\"primary\" >X:</ion-label>\r\n        <ion-label color=\"secondery\" >{{x}}</ion-label>\r\n      </ion-item>\r\n      <ion-item>\r\n        <ion-label color=\"primary\" >Y:</ion-label>\r\n        <ion-label color=\"secondery\" >{{y}}</ion-label>\r\n      </ion-item>\r\n      <ion-item>\r\n        <ion-label color=\"primary\" >Z:</ion-label>\r\n        <ion-label color=\"secondery\" >{{z}}</ion-label>\r\n      </ion-item>\r\n    </ion-list>\r\n    </ion-content>\r\n\r\n\r\n\r\n\r\n";
     /***/
   },
 
