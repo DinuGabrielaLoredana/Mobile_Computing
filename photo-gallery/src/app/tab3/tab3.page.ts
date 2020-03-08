@@ -4,6 +4,8 @@ import * as leaflet from 'leaflet';
 import {tileLayer,marker} from 'leaflet';
 import "leaflet/dist/images/marker-shadow.png";
 import "leaflet/dist/images/marker-icon-2x.png";
+import {AlertController} from '@ionic/angular';
+
 
 @Component({
   selector: 'app-tab3',
@@ -13,7 +15,8 @@ import "leaflet/dist/images/marker-icon-2x.png";
 export class Tab3Page {
   propertyList = [];
   map: any;
-  constructor() {
+  constructor(
+    private alertCtrl: AlertController) {
   }
 
   ionViewDidEnter() {
@@ -51,9 +54,8 @@ export class Tab3Page {
       maxZoom: 10
     }).on('locationfound', (e) => {
       let markerGroup = leaflet.featureGroup();
-      let marker: any = leaflet.marker([e.latitude, e.longitude]).on('click', () => {
-        alert('Marker clicked');
-      })
+      let marker: any = leaflet.marker([e.latitude, e.longitude]).bindPopup('Craiova')
+      .openPopup();
       markerGroup.addLayer(marker);
       this.map.addLayer(markerGroup);
       }).on('locationerror', (err) => {
@@ -61,5 +63,12 @@ export class Tab3Page {
     })
 
     //this.map.on('click', this.addMarker);
+  }
+
+  async showPopup(){
+    let alert = ( await this.alertCtrl.create({
+      message: 'Tap anywhere to add marker',
+      buttons: ['Dismiss']
+    })).present();
   }
 }

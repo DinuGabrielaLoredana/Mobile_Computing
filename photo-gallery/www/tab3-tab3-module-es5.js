@@ -13401,7 +13401,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     /* harmony default export */
 
 
-    __webpack_exports__["default"] = "<ion-header>\n  <ion-toolbar>\n    <ion-title>\n      Maps\n    </ion-title>\n  </ion-toolbar>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\" />\n</ion-header>\n<ion-content>\n  <div id=\"mapId3\" style=\"height:100vh; width: 100vw;\" ></div>\n</ion-content>\n\n";
+    __webpack_exports__["default"] = "<ion-header>\n  <ion-toolbar>\n    <ion-title>\n      Maps\n    </ion-title>\n  </ion-toolbar>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\" />\n</ion-header>\n<ion-button (click)=\"showPopup()\">Add marker</ion-button>\n<ion-content>\n  <div id=\"mapId3\" style=\"height:100vh; width: 100vw;\" ></div>\n</ion-content>\n\n";
     /***/
   },
 
@@ -13568,11 +13568,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
     var leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_4__);
+    /* harmony import */
+
+
+    var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(
+    /*! @ionic/angular */
+    "./node_modules/@ionic/angular/fesm2015/ionic-angular.js");
 
     var Tab3Page = /*#__PURE__*/function () {
-      function Tab3Page() {
+      function Tab3Page(alertCtrl) {
         _classCallCheck(this, Tab3Page);
 
+        this.alertCtrl = alertCtrl;
         this.propertyList = [];
       }
 
@@ -13589,6 +13596,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
             _this.leafletMap();
           });
+        }
+      }, {
+        key: "addMarker",
+        value: function addMarker(e) {
+          // Add marker to map at click location; add popup window
+          Object(leaflet__WEBPACK_IMPORTED_MODULE_2__["marker"])(new leaflet__WEBPACK_IMPORTED_MODULE_2__["LatLng"](e.latlng.lat, e.latlng.lng)).addTo(this.map).bindPopup("New city").openPopup();
         }
       }, {
         key: "leafletMap",
@@ -13631,20 +13644,50 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             maxZoom: 10
           }).on('locationfound', function (e) {
             var markerGroup = leaflet__WEBPACK_IMPORTED_MODULE_2__["featureGroup"]();
-            var marker = leaflet__WEBPACK_IMPORTED_MODULE_2__["marker"]([e.latitude, e.longitude]).on('click', function () {
-              alert('Marker clicked');
-            });
+            var marker = leaflet__WEBPACK_IMPORTED_MODULE_2__["marker"]([e.latitude, e.longitude]).bindPopup('Craiova').openPopup();
             markerGroup.addLayer(marker);
 
             _this2.map.addLayer(markerGroup);
           }).on('locationerror', function (err) {
             alert(err.message);
-          });
+          }); //this.map.on('click', this.addMarker);
+        }
+      }, {
+        key: "showPopup",
+        value: function showPopup() {
+          return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+            var alert;
+            return regeneratorRuntime.wrap(function _callee$(_context) {
+              while (1) {
+                switch (_context.prev = _context.next) {
+                  case 0:
+                    _context.next = 2;
+                    return this.alertCtrl.create({
+                      message: 'Tap anywhere to add marker',
+                      buttons: ['Dismiss']
+                    });
+
+                  case 2:
+                    alert = _context.sent.present();
+
+                  case 3:
+                  case "end":
+                    return _context.stop();
+                }
+              }
+            }, _callee, this);
+          }));
         }
       }]);
 
       return Tab3Page;
     }();
+
+    Tab3Page.ctorParameters = function () {
+      return [{
+        type: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__["AlertController"]
+      }];
+    };
 
     Tab3Page = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
       selector: 'app-tab3',
@@ -13654,7 +13697,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(
       /*! ./tab3.page.scss */
       "./src/app/tab3/tab3.page.scss")).default]
-    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])], Tab3Page);
+    }), tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_ionic_angular__WEBPACK_IMPORTED_MODULE_5__["AlertController"]])], Tab3Page);
     /***/
   }
 }]);

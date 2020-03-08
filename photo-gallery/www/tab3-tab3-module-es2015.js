@@ -14121,7 +14121,7 @@ window.L = exports;
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar>\n    <ion-title>\n      Maps\n    </ion-title>\n  </ion-toolbar>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\" />\n</ion-header>\n<ion-content>\n  <div id=\"mapId3\" style=\"height:100vh; width: 100vw;\" ></div>\n</ion-content>\n\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<ion-header>\n  <ion-toolbar>\n    <ion-title>\n      Maps\n    </ion-title>\n  </ion-toolbar>\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no\" />\n</ion-header>\n<ion-button (click)=\"showPopup()\">Add marker</ion-button>\n<ion-content>\n  <div id=\"mapId3\" style=\"height:100vh; width: 100vw;\" ></div>\n</ion-content>\n\n");
 
 /***/ }),
 
@@ -14201,6 +14201,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var leaflet_dist_images_marker_shadow_png__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(leaflet_dist_images_marker_shadow_png__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! leaflet/dist/images/marker-icon-2x.png */ "./node_modules/leaflet/dist/images/marker-icon-2x.png");
 /* harmony import */ var leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(leaflet_dist_images_marker_icon_2x_png__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _ionic_angular__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ionic/angular */ "./node_modules/@ionic/angular/fesm2015/ionic-angular.js");
+
 
 
 
@@ -14208,7 +14210,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 let Tab3Page = class Tab3Page {
-    constructor() {
+    constructor(alertCtrl) {
+        this.alertCtrl = alertCtrl;
         this.propertyList = [];
     }
     ionViewDidEnter() {
@@ -14218,6 +14221,11 @@ let Tab3Page = class Tab3Page {
             this.propertyList = json.properties;
             this.leafletMap();
         });
+    }
+    addMarker(e) {
+        // Add marker to map at click location; add popup window
+        Object(leaflet__WEBPACK_IMPORTED_MODULE_2__["marker"])(new leaflet__WEBPACK_IMPORTED_MODULE_2__["LatLng"](e.latlng.lat, e.latlng.lng)).addTo(this.map).bindPopup("New city")
+            .openPopup();
     }
     leafletMap() {
         for (const property of this.propertyList) {
@@ -14236,23 +14244,34 @@ let Tab3Page = class Tab3Page {
             maxZoom: 10
         }).on('locationfound', (e) => {
             let markerGroup = leaflet__WEBPACK_IMPORTED_MODULE_2__["featureGroup"]();
-            let marker = leaflet__WEBPACK_IMPORTED_MODULE_2__["marker"]([e.latitude, e.longitude]).on('click', () => {
-                alert('Marker clicked');
-            });
+            let marker = leaflet__WEBPACK_IMPORTED_MODULE_2__["marker"]([e.latitude, e.longitude]).bindPopup('Craiova')
+                .openPopup();
             markerGroup.addLayer(marker);
             this.map.addLayer(markerGroup);
         }).on('locationerror', (err) => {
             alert(err.message);
         });
+        //this.map.on('click', this.addMarker);
+    }
+    showPopup() {
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
+            let alert = (yield this.alertCtrl.create({
+                message: 'Tap anywhere to add marker',
+                buttons: ['Dismiss']
+            })).present();
+        });
     }
 };
+Tab3Page.ctorParameters = () => [
+    { type: _ionic_angular__WEBPACK_IMPORTED_MODULE_5__["AlertController"] }
+];
 Tab3Page = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
         selector: 'app-tab3',
         template: tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! raw-loader!./tab3.page.html */ "./node_modules/raw-loader/dist/cjs.js!./src/app/tab3/tab3.page.html")).default,
         styles: [tslib__WEBPACK_IMPORTED_MODULE_0__["__importDefault"](__webpack_require__(/*! ./tab3.page.scss */ "./src/app/tab3/tab3.page.scss")).default]
     }),
-    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [])
+    tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_ionic_angular__WEBPACK_IMPORTED_MODULE_5__["AlertController"]])
 ], Tab3Page);
 
 
