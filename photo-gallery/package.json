@@ -39,6 +39,7 @@
     "cordova-plugin-network-information": "^2.0.2",
     "core-js": "^2.5.4",
     "leaflet": "^1.6.0",
+    "leaflet-routing-machine": "^3.2.12",
     "parse": "^2.11.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
