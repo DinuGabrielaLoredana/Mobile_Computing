@@ -21,6 +21,7 @@
     "@angular/router": "~8.2.14",
     "@capacitor/android": "^1.5.0",
     "@capacitor/core": "1.5.0",
+    "@capacitor/ios": "^2.0.2",
     "@ionic-native/camera": "^5.22.0",
     "@ionic-native/core": "^5.0.0",
     "@ionic-native/device-motion": "^5.22.0",

@@ -70,8 +70,8 @@ export class Tab3Page {
 
           var control = L.Routing.control({
             waypoints: [
-              L.latLng(this.point1.lat, this.point1.lng),
-              L.latLng(this.point2.lat, this.point2.lng)
+              L.latLng(this.point1.lng, this.point1.lat),
+              L.latLng(this.point2.lng, this.point2.lat)
             ],
             router: new L.Routing.osrmv1({
               language: 'en',
