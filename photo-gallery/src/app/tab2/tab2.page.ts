@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { PhotoService } from '../services/photo.service';
 import {Parse} from 'parse';
 import {NavController, ToastController} from '@ionic/angular';
-
+import { LocalNotifications, ILocalNotification } from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-tab2',
@@ -12,7 +12,8 @@ import {NavController, ToastController} from '@ionic/angular';
 })
 export class Tab2Page {
 
-  constructor(public photoService: PhotoService, public navCtrl: NavController, public toastCtrl: ToastController,) { }
+  constructor(public photoService: PhotoService, public navCtrl: NavController, public toastCtrl: ToastController,
+    private localNotifications: LocalNotifications) { }
   ngOnInit() {
     this.photoService.loadSaved();
     
@@ -33,6 +34,30 @@ export class Tab2Page {
       });
     })
   }
+  ionViewDidEnter() {
+    this.onEnterSendNotification();
+  }
+  onEnterSendNotification(){
+    this.sendNotifications({
+      id: 1,
+      title: 'New notification',
+      text: 'Welcome back, my friend.'
+   });
+  }
+
+  sendNotifications(notifications: ILocalNotification | ILocalNotification[]) {
+    return this.localNotifications.hasPermission().then((hasPermission) => {
+        if (hasPermission) {
+            this.localNotifications.schedule(notifications);
+        } else {
+            this.localNotifications.requestPermission().then((hasPermission) => {
+                if (hasPermission) {
+                    this.localNotifications.schedule(notifications);
+                }
+            });
+        }
+    });
+}
 
 
 }

@@ -141,12 +141,12 @@ let LoginPage = class LoginPage {
     ngOnInit() {
         return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
             if (this.platform.is('cordova')) {
-                // if(this.network.Connection.NONE){
-                //   let alert = ( await this.alertCtrl.create({
-                //     message: 'No network available',
-                //     buttons: ['Dismiss']
-                //   })).present();
-                // }
+                if (this.network.type === 'none' || this.network.type === 'unknown') {
+                    let alert = (yield this.alertCtrl.create({
+                        message: 'No network available',
+                        buttons: ['Dismiss']
+                    })).present();
+                }
                 let disconnectSubscription = this.network.onDisconnect().subscribe(() => tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function* () {
                     let alert = (yield this.alertCtrl.create({
                         message: 'No network available',

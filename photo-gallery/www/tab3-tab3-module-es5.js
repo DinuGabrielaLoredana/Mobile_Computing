@@ -31136,7 +31136,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               } else {
                 _this.point2 = e.latlng;
                 var control = L.Routing.control({
-                  waypoints: [L.latLng(_this.point1.lng, _this.point1.lat), L.latLng(_this.point2.lng, _this.point2.lat)],
+                  waypoints: [L.latLng(_this.point1.lat, _this.point1.lng), L.latLng(_this.point2.lat, _this.point2.lng)],
                   router: new L.Routing.osrmv1({
                     language: 'en',
                     profile: 'car'

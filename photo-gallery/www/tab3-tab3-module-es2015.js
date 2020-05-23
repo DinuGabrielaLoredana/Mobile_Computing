@@ -32908,8 +32908,8 @@ let Tab3Page = class Tab3Page {
                     this.point2 = e.latlng;
                     var control = L.Routing.control({
                         waypoints: [
-                            L.latLng(this.point1.lng, this.point1.lat),
-                            L.latLng(this.point2.lng, this.point2.lat)
+                            L.latLng(this.point1.lat, this.point1.lng),
+                            L.latLng(this.point2.lat, this.point2.lng)
                         ],
                         router: new L.Routing.osrmv1({
                             language: 'en',
