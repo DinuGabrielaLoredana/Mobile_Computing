@@ -7,7 +7,7 @@ import "leaflet-routing-machine";
 import { AlertController } from "@ionic/angular";
 import { Platform } from "@ionic/angular";
 import { Parse } from "parse";
-// Add this line to remove typescript errors
+/* Add this line to remove typescript errors */
 declare var L: any;
 @Component({
   selector: "app-tab3",
@@ -27,17 +27,19 @@ export class Tab3Page {
   constructor(private alertCtrl: AlertController) {}
 
   ionViewDidEnter() {
+    /*When the user enters the page, display the map and its data*/
     this.loadmap();
   }
 
   async loadmap() {
+    /* Load a map and display it into the previously empty div */
     this.map = leaflet.map("mapId3").fitWorld();
     leaflet
       .tileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 18,
       })
       .addTo(this.map);
-
+    /* Get the users current location and add a default marker there */
     this.map
       .locate({
         setView: true,
@@ -55,37 +57,35 @@ export class Tab3Page {
       .on("locationerror", (err) => {
         alert(err.message);
       });
-
+    /*Get all the photos taken by the current user*/
     var query = new Parse.Query("Pictures");
     query.equalTo("createdBy", Parse.User.current());
     query.select("base64", "x", "y");
     const results = await query.find();
-
+    /*Iterate through the current user's pictures*/
     for (let result of results) {
-      // let markerGroup = leaflet.featureGroup();
-
+      /*Find all pictures taken at a certain location b the current user*/
       var query = new Parse.Query("Pictures");
       query.equalTo("createdBy", Parse.User.current());
       query.equalTo("x", result.get("x"));
       query.equalTo("y", result.get("y"));
       query.select("base64", "x", "y");
       const secondResults = await query.find();
+      /* Add pictures taken at the same location to the same marker */
       var imgSrc = '<div style="width: 110px; height: 110px; overflow: auto;">';
       for (let secondResult of secondResults) {
         imgSrc = imgSrc + "<img src=" + secondResult.get("base64") + ">";
       }
       imgSrc = imgSrc + "</div>";
-
+      /*Add markers with pictures to the map */
       let marker: any = leaflet
         .marker([result.get("x"), result.get("y")])
         .bindPopup(imgSrc)
         .openPopup();
       this.photosMarker.push(marker);
-      // markerGroup.addLayer(marker);
-      //  marker.on("click", loadPicturesFromLocation);
       this.map.addLayer(marker);
     }
-
+    /*If the user clicks on the map after previously he pressed the button add a marker, then add a marker at the current loction and mark the button as not presser*/
     this.map.on("click", (e) => {
       if (this.isPressed) {
         let markerGroup = leaflet.featureGroup();
@@ -97,11 +97,12 @@ export class Tab3Page {
         this.marker.push(marker);
         this.map.addLayer(markerGroup);
         this.isPressed = false;
-
+        /*If it is the second time the user places a marker manually...*/
         if (!this.point1) {
           this.point1 = e.latlng;
         } else {
           this.point2 = e.latlng;
+          /*Then check if there is another route already created. If it is remove it. In both cases, create a route between the two points*/
           if (this.control != null) {
             this.removeRoute();
           } else {
@@ -123,13 +124,14 @@ export class Tab3Page {
       }
     });
   }
-
+  /*Remove a route between 2 points from the map*/
   async removeRoute() {
     if (this.control != null) {
       this.map.removeControl(this.control);
       this.control = null;
     }
   }
+  /*Show a popup when pressing the button to inform the user that if he clicks on he map, he will create a marker*/
   async showPopup() {
     let alert = (
       await this.alertCtrl.create({
@@ -141,6 +143,7 @@ export class Tab3Page {
     this.isPressed = true;
   }
 
+  /*Delete all te markers which were manually placed on the map*/
   async deleteAllMarkers() {
     var iterator;
     this.removeRoute();

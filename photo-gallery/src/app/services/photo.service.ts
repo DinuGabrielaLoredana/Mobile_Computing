@@ -11,7 +11,7 @@ import { Geolocation } from "@ionic-native/geolocation/ngx";
 
 import { Platform } from "@ionic/angular";
 import { Parse } from "parse";
-
+/*Account detalis for parse server*/
 Parse.serverURL = "https://parseapi.back4app.com";
 Parse.initialize(
   "fBH0iXfHrI240kb14RHPz6mKbruyu378kf0a1750",
@@ -50,7 +50,7 @@ export class PhotoService {
       return (await this.convertBlobToBase64(blob)) as string;
     }
   }
-
+  /*When a photo is taken it will be returned as blob but I want to store it as a string so I will convert it to base64*/
   convertBlobToBase64 = (blob: Blob) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -61,6 +61,7 @@ export class PhotoService {
       reader.readAsDataURL(blob);
     });
 
+  /*Method retrieves photos from the database for the current user and saves them in our local array*/
   public async loadSaved() {
     /*Retrieve photos from database for each user*/
     var query = new Parse.Query("Pictures");
@@ -69,12 +70,83 @@ export class PhotoService {
     const photos = await query.find();
     this.photos = photos;
     var i = 0;
+    /*save photos retrieved in local array*/
     for (let photo of this.photos) {
       this.photos[i] = photos[i].get("base64");
       i++;
     }
   }
 
+  /*After taking a pcture, save it in the database*/
+  private async savePicture(cameraPhoto: CameraPhoto) {
+    /* Convert photo to base64 format, required by Filesystem API to save*/
+    const base64Data = await this.readAsBase64(cameraPhoto);
+
+    /* Create a name for the photo based on the current time and date it was taken*/
+    const fileName = new Date().getTime() + ".jpeg";
+    const Pictures = Parse.Object.extend("Pictures");
+    const myNewObject = new Pictures();
+    myNewObject.set("createdBy", Parse.User.current());
+    myNewObject.set("base64", base64Data);
+    myNewObject.set("FileName", fileName);
+    /* Get the geolocation coordinates at which the photo was taken to later add it to the map*/
+    let position = await this.getPosition();
+    myNewObject.set("x", position.coords.latitude);
+    myNewObject.set("y", position.coords.longitude);
+    /* Write the file to the data database*/
+    await myNewObject.save();
+    /* Reload all photos from the galery in order to add also the new taken one */
+    this.loadSaved();
+  }
+
+  /* Actually take a photo by using the device camera */
+  async getPhotoFromSystem() {
+    const capturedPhoto = await Camera.getPhoto({
+      /* file-based data; provides best performance */
+      resultType: CameraResultType.Uri,
+      /* automatically take a new photo with the camera */
+      source: CameraSource.Photos,
+      /* highest quality (0 to 100) */
+      quality: 100,
+    });
+
+    /* Save the picture and add it to photo collection */
+    const savedImageFile = await this.savePicture(capturedPhoto);
+  }
+
+  /* Get the user's current geolocation coordinates */
+  async getPosition() {
+    return await this.geolocation.getCurrentPosition();
+  }
+
+  /* Deletes a picture from the database */
+  async removePicture() {
+    var query = new Parse.Query("Pictures");
+    /* Find the clicked picture in the database by its string*/
+    query.equalTo("base64", this.photos[0]);
+    query
+      .first()
+      .then(function (foundPicture) {
+        /*If we found a picture, then delete it*/
+        if (foundPicture != null) {
+          foundPicture
+            .destroy()
+            .then(function (response) {
+              /*Reload page so the removed photo no longer appears in our gallery*/
+              window.location.reload(true);
+            })
+            .catch(function (response, error) {
+              console.log("Error: " + error.message);
+            });
+        }
+      })
+      .catch(function (error) {
+        console.log("Error: " + error.code + " " + error.message);
+        return null;
+      });
+  }
+
+  /*Outdated function*/
   private async getPhotoFile(cameraPhoto, fileName) {
     if (this.platform.is("hybrid")) {
       // Get the new, complete filepath of the photo saved on filesystem
@@ -97,64 +169,6 @@ export class PhotoService {
         webviewPath: cameraPhoto.webPath,
       };
     }
-  }
-
-  private async savePicture(cameraPhoto: CameraPhoto) {
-    // Convert photo to base64 format, required by Filesystem API to save
-    const base64Data = await this.readAsBase64(cameraPhoto);
-
-    // Write the file to the data database
-    const fileName = new Date().getTime() + ".jpeg";
-    const Pictures = Parse.Object.extend("Pictures");
-    const myNewObject = new Pictures();
-    myNewObject.set("createdBy", Parse.User.current());
-    myNewObject.set("base64", base64Data);
-    myNewObject.set("FileName", fileName);
-    // Get platform-specific photo filepaths
-    let position = await this.getPosition();
-    console.log(position);
-    myNewObject.set("x", position.coords.latitude);
-    myNewObject.set("y", position.coords.longitude);
-    await myNewObject.save();
-    this.loadSaved();
-  }
-
-  async getPhotoFromSystem() {
-    const capturedPhoto = await Camera.getPhoto({
-      resultType: CameraResultType.Uri, // file-based data; provides best performance
-      source: CameraSource.Photos, // automatically take a new photo with the camera
-      quality: 100, // highest quality (0 to 100)
-    });
-
-    //Save the picture and add it to photo collection
-    const savedImageFile = await this.savePicture(capturedPhoto);
-  }
-
-  async getPosition() {
-    return await this.geolocation.getCurrentPosition();
-  }
-
-  async removePicture() {
-    var query = new Parse.Query("Pictures");
-    query.equalTo("base64", this.photos[0]);
-    query
-      .first()
-      .then(function (foundPicture) {
-        if (foundPicture != null) {
-          foundPicture
-            .destroy()
-            .then(function (response) {
-              window.location.reload(true);
-            })
-            .catch(function (response, error) {
-              console.log("Error: " + error.message);
-            });
-        }
-      })
-      .catch(function (error) {
-        console.log("Error: " + error.code + " " + error.message);
-        return null;
-      });
   }
 }
 
