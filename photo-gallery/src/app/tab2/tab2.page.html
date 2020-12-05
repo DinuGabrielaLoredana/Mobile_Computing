@@ -1,35 +1,30 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Photo Gallery</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>Photo Gallery</ion-title>
+    </ion-toolbar>
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
 </ion-header>
 
-
-  <div margin-top text-center>
-    <ion-button  (click)="logOut()">
-      Log out
-    </ion-button>
-    <ion-fab margin-right  slot="fixed" >
-      <ion-button (click)="photoService.addNewToGallery()">
-        <ion-icon name="camera"></ion-icon>
-      </ion-button>
-      <ion-button (click)="photoService.getPhotoFromSystem()">
-        <ion-icon name="add-circle-outline"></ion-icon>
-      </ion-button>
+<div margin-top text-center>
+    <ion-button (click)="logOut()"> Log out </ion-button>
+    <ion-fab margin-right slot="fixed">
+        <ion-button (click)="photoService.getPhotoFromSystem()">
+            <ion-icon name="add-circle-outline"></ion-icon>
+        </ion-button>
     </ion-fab>
-  </div>
-  
+</div>
+
 <ion-content>
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6" 
-      *ngFor="let photo of photoService.photos; index as position">
-        <ion-img src="{{ photo.base64 ? photo.base64 : photo.webviewPath }}">
-        </ion-img>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-
+    <ion-grid>
+        <ion-row>
+            <ion-col size="6" *ngFor="let photo of photoService.photos; index as position">
+                <div class="container">
+                    <ion-img src="{{ photo }}" id="{{ photo }}"> </ion-img>
+                    <a (click)="photoService.removePicture(this);"><i class="fas fa-times-circle"></i></a>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 </ion-content>
-

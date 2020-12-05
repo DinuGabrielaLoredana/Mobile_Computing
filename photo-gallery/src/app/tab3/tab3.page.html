@@ -1,31 +1,33 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Maps
-    </ion-title>
-  </ion-toolbar>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <ion-toolbar>
+        <ion-title>
+            Maps
+        </ion-title>
+    </ion-toolbar>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+
 
 
 </ion-header>
 <ion-button (click)="showPopup()">Add marker</ion-button>
+<ion-button (click)="removeRoute()">Remove Route</ion-button>
+<ion-button (click)="deleteAllMarkers()">Remove Added Markers</ion-button>
 <ion-content>
-  <div id="mapId3" style="height:100vh; width: 100vw;" ></div>
+    <div id="mapId3" style="height:100vh; width: 100vw;"></div>
 </ion-content>
 <script>
+    var map = L.map('mapId3');
 
-var map = L.map('mapId3');
+    L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
 
-L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap contributors'
-}).addTo(map);
-
-L.Routing.control({
-    waypoints: [
-        L.latLng(57.74, 11.94),
-        L.latLng(57.6792, 11.949)
-    ],
-    routeWhileDragging: true
-}).addTo(map);
+    L.Routing.control({
+        waypoints: [
+            L.latLng(57.74, 11.94),
+            L.latLng(57.6792, 11.949)
+        ],
+        routeWhileDragging: true
+    }).addTo(map);
 </script>

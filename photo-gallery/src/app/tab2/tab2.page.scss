@@ -1,3 +1,18 @@
 ion-content ion-toolbar {
-  --background: translucent;
+    --background: translucent;
+}
+
+.container {
+    position: relative;
+}
+
+.container img {
+    display: block;
+}
+
+.container .fa-times-circle {
+    position: absolute;
+    background: white;
+    top: 0;
+    right: 0;
 }
