@@ -9,6 +9,7 @@
 
 <div margin-top text-center>
     <ion-button (click)="logOut()"> Log out </ion-button>
+    <ion-button (click)="photoService.loadSaved()"> Remove filters </ion-button>
     <ion-fab margin-right slot="fixed">
         <ion-button (click)="photoService.getPhotoFromSystem()">
             <ion-icon name="add-circle-outline"></ion-icon>

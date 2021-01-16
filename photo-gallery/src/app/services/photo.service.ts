@@ -8,7 +8,6 @@ import {
   CameraSource,
 } from "@capacitor/core";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
-
 import { Platform } from "@ionic/angular";
 import { Parse } from "parse";
 /*Account detalis for parse server*/
@@ -34,16 +33,16 @@ export class PhotoService {
   }
 
   private async readAsBase64(cameraPhoto: CameraPhoto) {
-    // "hybrid" will detect Cordova or Capacitor
+    /* "hybrid" will detect Cordova or Capacitor */
     if (this.platform.is("hybrid")) {
-      // Read the file into base64 format
+      /* Read the file into base64 format */
       const file = await Filesystem.readFile({
         path: cameraPhoto.path,
       });
 
       return file.data;
     } else {
-      // Fetch the photo, read as a blob, then convert to base64 format
+      /* Fetch the photo, read as a blob, then convert to base64 format */
       const response = await fetch(cameraPhoto.webPath);
       const blob = await response.blob();
 
@@ -77,6 +76,24 @@ export class PhotoService {
     }
   }
 
+  public async loadFiltered(e) {
+    /*Retrieve photos from database for each user*/
+
+    var query = new Parse.Query("Pictures");
+    query.equalTo("createdBy", Parse.User.current());
+    query.equalTo("x", e.latlng.lat);
+    query.equalTo("y", e.latlng.lng);
+    query.select("base64");
+    const photos = await query.find();
+    this.photos = photos;
+    var i = 0;
+    /*save photos retrieved in local array*/
+    for (let photo of this.photos) {
+      this.photos[i] = photos[i].get("base64");
+      i++;
+    }
+  }
+
   /*After taking a pcture, save it in the database*/
   private async savePicture(cameraPhoto: CameraPhoto) {
     /* Convert photo to base64 format, required by Filesystem API to save*/
@@ -91,12 +108,47 @@ export class PhotoService {
     myNewObject.set("FileName", fileName);
     /* Get the geolocation coordinates at which the photo was taken to later add it to the map*/
     let position = await this.getPosition();
-    myNewObject.set("x", position.coords.latitude);
-    myNewObject.set("y", position.coords.longitude);
+    let newPhoto_x = position.coords.latitude;
+    let newPhoto_y = position.coords.longitude;
+    /*Aproximate picture location related to another picture in the database so they will be placed at the same marker*/
+    for (let result of this.photos) {
+      let distance = this.getDistanceFromLatLonInKm(
+        newPhoto_x,
+        newPhoto_y,
+        result.x,
+        result.y
+      );
+      if (distance <= 10) {
+        newPhoto_x = result.x;
+        newPhoto_y = result.y;
+        break;
+      }
+    }
+    myNewObject.set("x", newPhoto_x);
+    myNewObject.set("y", newPhoto_y);
     /* Write the file to the data database*/
     await myNewObject.save();
     /* Reload all photos from the galery in order to add also the new taken one */
     this.loadSaved();
+  }
+
+  deg2rad(deg) {
+    return deg * (Math.PI / 180);
+  }
+
+  getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371; /* Radius of the earth in km */
+    var dLat = this.deg2rad(lat2 - lat1); // deg2rad below
+    var dLon = this.deg2rad(lon2 - lon1);
+    var a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.deg2rad(lat1)) *
+        Math.cos(this.deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; /* Distance in km */
+    return d;
   }
 
   /* Actually take a photo by using the device camera */

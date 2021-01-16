@@ -1,12 +1,12 @@
 import { Component } from "@angular/core";
 import * as leaflet from "leaflet";
-import { tileLayer, marker } from "leaflet";
 import "leaflet/dist/images/marker-shadow.png";
 import "leaflet/dist/images/marker-icon-2x.png";
 import "leaflet-routing-machine";
 import { AlertController } from "@ionic/angular";
-import { Platform } from "@ionic/angular";
 import { Parse } from "parse";
+import { PhotoService } from "../services/photo.service";
+import { Router } from "@angular/router";
 /* Add this line to remove typescript errors */
 declare var L: any;
 @Component({
@@ -17,6 +17,7 @@ declare var L: any;
 export class Tab3Page {
   map: any;
   isPressed = false;
+  isMapLoaded = false;
   L: any;
   point1: leaflet.LatLng = undefined;
   point2: leaflet.LatLng = undefined;
@@ -24,13 +25,23 @@ export class Tab3Page {
   marker = new Array();
   photosMarker = new Array();
   ngOnInit() {}
-  constructor(private alertCtrl: AlertController) {}
+  constructor(
+    private alertCtrl: AlertController,
+    public photoService: PhotoService,
+    private router: Router
+  ) {}
 
   ionViewDidEnter() {
     /*When the user enters the page, display the map and its data*/
-    this.loadmap();
+    if (!this.isMapLoaded) {
+      this.loadmap();
+      this.isMapLoaded = true;
+    }
   }
-
+  public fu(e) {
+    this.photoService.loadFiltered(e);
+    this.router.navigate(["tabs/tab2"]);
+  }
   async loadmap() {
     /* Load a map and display it into the previously empty div */
     this.map = leaflet.map("mapId3").fitWorld();
@@ -77,14 +88,23 @@ export class Tab3Page {
         imgSrc = imgSrc + "<img src=" + secondResult.get("base64") + ">";
       }
       imgSrc = imgSrc + "</div>";
+      imgSrc = imgSrc + '<button type="button" See photos</button>';
       /*Add markers with pictures to the map */
       let marker: any = leaflet
         .marker([result.get("x"), result.get("y")])
+        .addTo(this.map)
+        .on("click", (e) => {
+          this.fu(e);
+        })
         .bindPopup(imgSrc)
-        .openPopup();
+        .on("mouseover", function (e) {
+          this.openPopup();
+        });
+
       this.photosMarker.push(marker);
       this.map.addLayer(marker);
     }
+
     /*If the user clicks on the map after previously he pressed the button add a marker, then add a marker at the current loction and mark the button as not presser*/
     this.map.on("click", (e) => {
       if (this.isPressed) {
